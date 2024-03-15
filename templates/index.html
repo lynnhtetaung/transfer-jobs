@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transfer Tar Files</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+        .thumbnail {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: inline-block;
+            width: calc(25% - 20px);
+            margin-right: 20px;
+            text-align: center;
+        }
+        .thumbnail img {
+            max-width: 100%;
+            height: auto;
+            max-height: 50px; /* Adjust the maximum height as needed */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>List of Job Files</h1>
+        <div class="thumbnails">
+            {% for file in tar_files %}
+                <div class="thumbnail">
+                    <img src="{{ url_for('static', filename='docker-image.png') }}" alt="Thumbnail">
+                    <p>{{ file }}</p>
+                    <form action="/transfer" method="post">
+                        <input type="hidden" name="selected_file" value="{{ file }}">
+                        <button type="submit">Transfer</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
