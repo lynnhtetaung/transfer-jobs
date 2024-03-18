@@ -1,4 +1,4 @@
-def decode(message_file):
+def decoder(message_file):
     # Dictionary to store words in the pyramid structure
     pyramid = {}
 
@@ -13,10 +13,16 @@ def decode(message_file):
             # Append the word to the corresponding level in the pyramid
             pyramid.setdefault(num, []).append(word)
 
-    # Extract words at the end of each pyramid line (1, 3, 6 in this case)
-    decoded_message = ' '.join(pyramid[i][-1] for i in [1, 3, 6] if i in pyramid)
+    # Extract words at the end of each pyramid line
+    decoded_message = ' '.join(pyramid[level][-1] for level in sorted(pyramid.keys()))
+
+    # Print the end of each line with their corresponding numbers and words
+    for level, words in sorted(pyramid.items()):
+        print(f"Line {level}: {level * (level + 1) // 2} {words[-1]}")
+
     return decoded_message
 
-# Test the decode function with the input file
-decoded_message = decode('message.txt')
-print("Decoded Message:", decoded_message)
+# Test the combined function with the input file
+decoded_message = decoder('encode_message.txt')
+print("\nDecoded Message:", decoded_message)
+
