@@ -1,0 +1,61 @@
+In a newly planned city, where a city is located at each integral coordinate in a 2-dimensional plane, there are n Amazon retailers. The ith retailer resides in the city at the coordinate (x_i, y_i) and can deliver to all the cities covered by the rectangle having the 4 corner points (0, 0), (x_i, 0), (0, y_i), (x_i, y_i). We say that a point (a, b) is covered by a rectangle if it lies inside the rectangle or on its boundaries. Note that no 2 retailers reside in the same city.
+
+Given q requests of the form (a, b), determine the number of retailers who can deliver to the city at the coordinate (a, b).
+
+Example:
+
+retailers = [ [1, 2], [2, 3], [1, 5]]
+
+requests = [ [1, 1], [1, 4]]
+
+In this example, We have 3 retailers in the cities (1, 2), (2, 3), and (1, 5).
+
+For the first request, all 3 retailers can deliver to the city at the coordinate (1, 1).
+For the second request, only the third retailer can deliver to the city at the coordinate (1, 4).
+Hence, the answer for this example will be [3, 1].
+
+Function Description
+
+Complete the function countNumberOfRetailers in the editor below.
+
+countNumberOfRetailers has the following parameter(s):
+
+int retailers[n][2]: the retailers' coordinates
+int requests[q][2]: the coordinates of cities to deliver to
+Returns
+
+int array[q]: the ith element is the answer to the ith query
+
+Constraints
+
+1 ≤ n, q ≤ 7.510^4*
+1 ≤ retailers[i][0] ≤ 10^9
+1 ≤ retailers[i][1] ≤ 100
+0 ≤ requests[i][0] ≤ 10^9
+0 ≤ requests[i][1] ≤ 100
+No two retailers share the same coordinates.
+
+-----------------------
+Source Code
+-----------------------
+def countNumberOfRetailers(retailers, requests):
+    max_x_values = {}
+    max_y_values = {}
+
+    # Preprocess to find maximum x and y values for each retailer
+    for retailer in retailers:
+        x, y = retailer
+        max_x_values[x] = max(max_x_values.get(x, 0), y)
+        max_y_values[y] = max(max_y_values.get(y, 0), x)
+
+    result = []
+    for request in requests:
+        count = 0
+        x, y = request
+        for retailer in retailers:
+            rx, ry = retailer
+            if rx >= x and ry >= y:
+                count += 1
+        result.append(count)
+
+    return result

@@ -1,0 +1,59 @@
+An AWS client wants to deploy multiple applications and needs two servers, one for their frontend and another for their backend. They have a list of integers representing the quality of servers in terms of availability. The client's preference is that the availability of an application's frontend server must be greater than that of its backend.
+
+Two arrays of same size s, frontend[s] and backend[s] where elements represent the quality of the servers, create pairs of elements (frontend[i], backend[j]) such that frontend[i] > backend[j] in each pair. Each element from an array can be picked only once to form a pair. Find the maximum number pairs that can be formed.
+
+Example:
+
+Given, s = 3, frontend = [1,2,3], backend = [1,2,1], the possible valid pairs which can be made are:
+
+{frontend1, backend0}={2 , 1} and {frontend2, backend2}={3 , 1} are valid pairs
+{frontend1, backend0}={2 , 1} and {frontend2, backend1}={3 , 2} are valid pairs
+It can be seen that a maximum of 2 valid pairs can be made at a time. So the maximum number of pairs that can be formed is 2. Return 2.
+
+Function Description:
+
+Complete the function findMaximumPairs in the editor below.
+
+findMaximumPairs has the following parameters:
+
+int frontend[s]: frontend server qualities
+int backend[s]: backend server qualities
+Returns:
+
+int: the maximum number of pairs that can be formed
+Constraints:
+
+1 ≤ s ≤ 10^5
+1 ≤ frontend[i], backend[i] ≤ 10^9
+
+
+---------------------------
+Source Code
+--------------------------
+def findMaximumPairs(frontend, backend):
+    frontend.sort()  # Sort the frontend array in ascending order
+    backend.sort()   # Sort the backend array in ascending order
+    max_pairs = 0    # Initialize the maximum number of pairs to 0
+
+    # Initialize pointers for frontend and backend arrays
+    i = j = 0
+    
+    # Loop until either frontend or backend array is exhausted
+    while i < len(frontend) and j < len(backend):
+        # If the current frontend server is greater than the current backend server,
+        # a valid pair can be formed. Increment max_pairs and move both pointers forward.
+        if frontend[i] > backend[j]:
+            max_pairs += 1
+            i += 1
+            j += 1
+        else:
+            # If the current frontend server is not greater than the current backend server,
+            # move only the frontend pointer forward to search for a greater backend server.
+            i += 1
+    
+    return max_pairs
+
+# Example usage:
+frontend = [1, 2, 3]
+backend = [1, 2, 1]
+print(findMaximumPairs(frontend, backend))  # Output: 2
